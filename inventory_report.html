@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}Inventory Report - Rajdhani Seeds Company{% endblock %}
+
+{% block content %}
+<h2>Inventory Report</h2>
+
+{% if products|length == 0 %}
+    <p>No products found</p>
+{% else %}
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Product Name</th>
+                <th>Description</th>
+                <th>Packing Size</th>
+                <th>Unit Price (৳)</th>
+                <th>Current Stock</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products %}
+            <tr>
+                <td>{{ product.id }}</td>
+                <td>{{ product.name }}</td>
+                <td>{{ product.description }}</td>
+                <td>{{ product.packing_size }}</td>
+                <td>{{ "%.2f"|format(product.unit_price) }}</td>
+                <td>{{ product.current_stock }}</td>
+                <td>
+                    {% if product.current_stock == 0 %}
+                        Out of stock
+                    {% elif product.current_stock <= 10 %}
+                        Low stock
+                    {% else %}
+                        In stock
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endif %}
+{% endblock %}
